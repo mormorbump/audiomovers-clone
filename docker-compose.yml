@@ -1,0 +1,34 @@
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: musicmovers-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://host.docker.internal:8080
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  url-watcher:
+    image: alpine:latest
+    container_name: musicmovers-url-watcher
+    depends_on:
+      - cloudflared
+    volumes:
+      - ./tunnel_url.txt:/output/tunnel_url.txt
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        apk add --no-cache docker-cli > /dev/null 2>&1
+        echo "Waiting for tunnel URL..."
+        for i in $$(seq 1 30); do
+          URL=$$(docker logs musicmovers-tunnel 2>&1 | grep -o "https://[^ ]*trycloudflare.com" | head -n 1)
+          if [ -n "$$URL" ]; then
+            echo "$$URL" > /output/tunnel_url.txt
+            echo "Tunnel URL: $$URL"
+            echo "Written to tunnel_url.txt"
+            sleep infinity
+          fi
+          sleep 1
+        done
+        echo "Failed to get tunnel URL"

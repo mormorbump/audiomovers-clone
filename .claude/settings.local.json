@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm init)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout 5 npm run streamer:*)",
+      "Bash(chmod:*)",
+      "WebFetch(domain:qiita.com)",
+      "Bash(docker compose:*)",
+      "Bash(npm run start:*)",
+      "Bash(./get-tunnel-url.sh)",
+      "Bash(curl:*)"
+    ]
+  }
+}

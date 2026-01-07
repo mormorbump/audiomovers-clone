@@ -1,0 +1,16 @@
+{
+  "name": "musicmovers",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Non-compressed PCM 24bit audio streaming via WebSocket",
+  "scripts": {
+    "start": "tsx src/server/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "ws": "^8.18.3"
+  }
+}
