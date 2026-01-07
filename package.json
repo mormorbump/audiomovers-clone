@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Non-compressed PCM 24bit audio streaming via WebSocket",
+  "bin": {
+    "audiomovers": "./bin/audiomovers"
+  },
   "scripts": {
     "start": "tsx src/server/index.ts"
   },

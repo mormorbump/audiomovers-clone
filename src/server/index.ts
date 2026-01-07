@@ -27,6 +27,7 @@ const PUBLIC_DIR = join(__dirname, '..', 'public');
 // 設定
 const PORT = parseInt(process.env.PORT || '8080', 10);
 const AUDIO_DEVICE = process.env.AUDIO_DEVICE || 'BlackHole 2ch';
+const DEBUG_MODE = process.env.DEBUG_MODE === 'false';
 
 // PCMパラメータ
 const SAMPLE_RATE = 48000;
@@ -103,14 +104,16 @@ function startCapture(): void {
           viewer.send(chunk);
         }
       }
-      if (viewers.size > 0) {
+      if (DEBUG_MODE && viewers.size > 0) {
         console.log(`[Send] ${chunk.length} bytes to ${viewers.size} viewers`);
       }
     }
   });
 
   captureProcess.stderr?.on('data', (data) => {
-    console.error('[sox]', data.toString().trim());
+    if (DEBUG_MODE) {
+      console.error('[sox]', data.toString().trim());
+    }
   });
 
   captureProcess.on('error', (err) => {

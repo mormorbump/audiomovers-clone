@@ -1,4 +1,4 @@
-# MusicMovers
+# AudioMoversClone
 
 macOSのシステム音声を非圧縮24bit PCMでブラウザに配信
 
@@ -31,7 +31,18 @@ Docker Desktopが必要です。
 #### 起動
 
 ```bash
+# グローバルコマンド（どこからでも実行可能）
+audiomovers
+
+# または従来の方法
 ./scripts/start-public.sh
+```
+
+#### グローバルコマンドのインストール
+- 初回セットアップ: プロジェクトディレクトリでnpm linkを1回実行
+- 以降: どこからでもaudiomoversで起動可能
+```bash
+npm link
 ```
 
 起動後、コンソールに表示される `https://xxx.trycloudflare.com` のURLでどこからでもアクセス可能。
@@ -67,6 +78,12 @@ docker compose down
 |------|------|------|
 | PORT | ポート番号 | 8080 |
 | AUDIO_DEVICE | 音声デバイス名 | BlackHole 2ch |
+| DEBUG_MODE | soxのログ出力を有効化 | false |
+
+```bash
+# デバッグモードで起動（soxログ出力あり）
+DEBUG_MODE=true npm start
+```
 
 ## 仕様
 
