@@ -76,3 +76,4 @@ docker compose down
 ## Note
 
 BlackHoleはmacOSカーネルレベルのオーディオドライバのため、Dockerでの実行は不可。
+参考: https://qiita.com/dekoboko/items/5c209f4a524242d8a996
