@@ -21,14 +21,14 @@ services:
       - |
         apk add --no-cache docker-cli > /dev/null 2>&1
         echo "Waiting for tunnel URL..."
-        for i in $$(seq 1 30); do
-          URL=$$(docker logs musicmovers-tunnel 2>&1 | grep -o "https://[^ ]*trycloudflare.com" | head -n 1)
+        # 現在時刻から1秒前以降のログのみを監視（過去のログを無視）
+        sleep 2
+        docker logs -f --since 1s musicmovers-tunnel 2>&1 | while read line; do
+          URL=$$(echo "$$line" | grep -o "https://[a-z0-9-]*\.trycloudflare\.com" || true)
           if [ -n "$$URL" ]; then
             echo "$$URL" > /output/tunnel_url.txt
             echo "Tunnel URL: $$URL"
             echo "Written to tunnel_url.txt"
-            sleep infinity
+            exec sleep infinity
           fi
-          sleep 1
         done
-        echo "Failed to get tunnel URL"
